@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hoş Geldiniz</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eceff1, #ffffff);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        margin: 0;
+      }
+
+      h1 {
+        color: #4a90e2;
+        font-size: 2em;
+        margin-bottom: 20px;
+      }
+
+      input {
+        padding: 10px;
+        font-size: 1em;
+        border: 2px solid #4a90e2;
+        border-radius: 5px;
+        outline: none;
+        margin-bottom: 20px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      input:focus {
+        border-color: #f56262;
+        box-shadow: 0 0 8px rgba(245, 98, 98, 0.6);
+      }
+
+      button {
+        padding: 10px 20px;
+        font-size: 1em;
+        background: #4a90e2;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      button:hover {
+        background: #f56262;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Hoş Geldiniz</h1>
+    <p>İsminizi giriniz:</p>
+    <input type="text" id="username" placeholder="İsminiz" />
+    <button onclick="goToNextPage()">Devam Et</button>
+
+    <script>
+      function goToNextPage() {
+        const username = document.getElementById("username").value;
+        if (username.trim() === "") {
+          alert("Lütfen isminizi girin!");
+          return;
+        }
+        localStorage.setItem("username", username); // Kullanıcı adını depoluyoruz
+        window.location.href = "karar.html"; // İkinci sayfaya yönlendir
+      }
+    </script>
+  </body>
+</html>

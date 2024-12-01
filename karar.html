@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Karar Verme Teknikleri</title>
+    <style>
+      /* Genel Sayfa Stili */
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        background: linear-gradient(135deg, #eceff1, #ffffff);
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        min-height: 100vh;
+        color: #333;
+      }
+
+      h2 {
+        color: #4caf50;
+        font-size: 2em;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      label {
+        font-size: 1.1em;
+        margin-right: 10px;
+        color: #555;
+      }
+
+      input {
+        padding: 10px;
+        font-size: 1em;
+        border: 1px solid #4caf50;
+        border-radius: 5px;
+        outline: none;
+        margin-right: 10px;
+        transition: all 0.3s ease-in-out;
+      }
+
+      input:focus {
+        border-color: #ff9800;
+        box-shadow: 0 0 10px rgba(255, 152, 0, 0.5);
+      }
+
+      button {
+        padding: 10px 15px;
+        font-size: 1em;
+        background: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        margin: 5px 0;
+        transition: all 0.3s ease-in-out;
+      }
+
+      button:hover {
+        background: #ff9800;
+      }
+
+      #tableContainer {
+        margin-top: 20px;
+        width: 90%;
+        max-width: 800px;
+        overflow-x: auto;
+      }
+
+      table {
+        border-collapse: collapse;
+        width: 100%;
+        background: #ffffff;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      th,
+      td {
+        padding: 15px;
+        text-align: center;
+        font-size: 1em;
+        color: #333;
+        border: 1px solid #ddd;
+      }
+
+      td {
+        background: #f9f9f9;
+        transition: all 0.3s ease-in-out;
+      }
+
+      td[contenteditable="true"] {
+        background: #e8f5e9;
+        transition: all 0.3s ease-in-out;
+      }
+
+      td[contenteditable="true"]:focus {
+        background: #fffde7;
+        outline: 2px solid #ff9800;
+      }
+
+      tr:nth-child(even) td {
+        background: #e3f2fd;
+      }
+
+      tr:nth-child(odd) td {
+        background: #f1f8e9;
+      }
+
+      tr:hover td {
+        background: #c8e6c9;
+      }
+
+      /* Sonuç Alanı */
+      #sonucum,
+      #satirim {
+        font-size: 1.2em;
+        color: #4caf50;
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #4caf50;
+        background: #e8f5e9;
+        width: fit-content;
+        box-shadow: 0 2px 4px rgba(192, 96, 96, 0.1);
+      }
+
+      #sonucum {
+        margin-bottom: 5px;
+      }
+      .username-display {
+        font-size: x-large;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Karar Verme Teknikleri</h2>
+    <div id="username-display"></div>
+    <label for="rows">Satır Sayısı:</label>
+    <input type="number" id="rows" min="1" placeholder="Satır girin" />
+    <label for="cols">Sütun Sayısı:</label>
+    <input type="number" id="cols" min="1" placeholder="Sütun girin" />
+    <button id="createTable">Tablo Oluştur</button>
+    <button id="calculateSums">Satır Toplamlarını Hesapla</button>
+    <b>Sonuç:</b>
+    <div id="sonucum"></div>
+    <div id="satirim"></div>
+    <div id="tableContainer"></div>
+
+    <script>
+      // Kullanıcının adını al ve göster
+      const username = localStorage.getItem("username");
+      if (username) {
+        document.getElementById(
+          "username-display"
+        ).innerHTML = `Hoş geldin, ${username}!`;
+      } else {
+        document.getElementById("username-display").textContent =
+          "Hoş geldiniz!";
+      }
+
+      document
+        .getElementById("createTable")
+        .addEventListener("click", function () {
+          const rows = parseInt(document.getElementById("rows").value);
+          const cols = parseInt(document.getElementById("cols").value);
+
+          if (rows <= 0 || cols <= 0) {
+            alert("Lütfen geçerli bir satır ve sütun sayısı girin!");
+            return;
+          }
+
+          const container = document.getElementById("tableContainer");
+          container.innerHTML = "";
+
+          const table = document.createElement("table");
+
+          // Tabloyu oluştur
+          for (let i = 0; i < rows; i++) {
+            const row = document.createElement("tr");
+
+            // Satır numarasını ekleyen hücre
+            const rowNumberCell = document.createElement("td");
+            rowNumberCell.textContent = `${i + 1}-`;
+            rowNumberCell.style.fontWeight = "bold"; // Kalın yazı
+            row.appendChild(rowNumberCell);
+
+            for (let j = 0; j < cols; j++) {
+              const cell = document.createElement("td");
+              cell.setAttribute("contenteditable", "true");
+              cell.textContent = Math.floor(Math.random() * 100); // Varsayılan rastgele sayılar
+              row.appendChild(cell);
+            }
+            table.appendChild(row);
+          }
+
+          container.appendChild(table);
+        });
+
+      document
+        .getElementById("calculateSums")
+        .addEventListener("click", function () {
+          const table = document.querySelector("table");
+          if (!table) {
+            alert("Henüz bir tablo oluşturulmadı!");
+            return;
+          }
+
+          const rows = table.rows;
+          const rowSums = [];
+
+          for (let i = 0; i < rows.length; i++) {
+            const cells = rows[i].cells;
+            let sum = 0;
+
+            // İlk hücreyi (satır numarası) atla
+            for (let j = 1; j < cells.length; j++) {
+              const value = parseFloat(cells[j].textContent);
+              if (!isNaN(value)) {
+                sum += value;
+              }
+            }
+
+            rowSums[i] = sum;
+          }
+
+          const maxToplam = Math.max(...rowSums);
+          const maxToplamSatiri = rowSums.indexOf(maxToplam);
+          let sonucum = document.getElementById("sonucum");
+          sonucum.innerHTML = `En büyük değer: ${maxToplam}`;
+          let satirim = document.getElementById("satirim");
+          satirim.innerHTML = `Kararın bulunduğu satır: ${maxToplamSatiri + 1}`;
+        });
+    </script>
+  </body>
+</html>
