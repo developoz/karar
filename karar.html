@@ -164,7 +164,7 @@
         document.getElementById("username-display").textContent =
           "Hoş geldiniz!";
       }
-
+      let sonucDegerMax;
       document
         .getElementById("createTable")
         .addEventListener("click", function () {
@@ -214,28 +214,36 @@
 
           const rows = table.rows;
           const rowSums = [];
-
+          let enbuyukdegerbul = [];
+          const enbuyukler = [];
           for (let i = 0; i < rows.length; i++) {
             const cells = rows[i].cells;
             let sum = 0;
 
             // İlk hücreyi (satır numarası) atla
             for (let j = 1; j < cells.length; j++) {
+              debugger;
               const value = parseFloat(cells[j].textContent);
               if (!isNaN(value)) {
+                enbuyukdegerbul.push(value);
                 sum += value;
               }
             }
 
-            rowSums[i] = sum;
+            Math.max(enbuyukler.push(Math.max(...enbuyukdegerbul)));
+            enbuyukdegerbul = [];
+            sonucDegerMax = Math.max(...enbuyukler);
+            // console.log(sonucDegerMax);
+            // rowSums[i] = sum;
           }
 
           const maxToplam = Math.max(...rowSums);
-          const maxToplamSatiri = rowSums.indexOf(maxToplam);
+          const toplamMaxSatiri = enbuyukler.indexOf(sonucDegerMax);
+          //const maxToplamSatiri = rowSums.indexOf(maxToplam);
           let sonucum = document.getElementById("sonucum");
-          sonucum.innerHTML = `En büyük değer: ${maxToplam}`;
+          sonucum.innerHTML = `En büyük değer: ${sonucDegerMax}`;
           let satirim = document.getElementById("satirim");
-          satirim.innerHTML = `Kararın bulunduğu satır: ${maxToplamSatiri + 1}`;
+          satirim.innerHTML = `Kararın bulunduğu satır: ${toplamMaxSatiri + 1}`;
         });
     </script>
   </body>
